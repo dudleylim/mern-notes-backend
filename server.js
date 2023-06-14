@@ -8,8 +8,8 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use('/api/notes', noteRouter);
 app.use('/api/users', userRouter);
+app.use('/api/notes', noteRouter);
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {

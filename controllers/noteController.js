@@ -2,7 +2,9 @@ const Note = require('../models/noteModel');
 
 // get notes
 const getNotes = async (req, res) => {
-    const response = await Note.find({}).sort({ createdAt: -1 });
+    const _id = req.user._id;
+    // console.log(req.user._id);
+    const response = await Note.find({ user_id: _id }).sort({ createdAt: -1 });
     if (response) {
         res.status(200).json(response);
     } else {
@@ -24,10 +26,12 @@ const getNote = async (req, res) => {
 // create note
 const createNote = async (req, res) => {
     const { title, content } = req.body;
+    const { _id } = req.user;
     try {
         const response = await Note.create({
             title,
-            content
+            content,
+            user_id: _id
         });
         res.status(200).json(response);
     } catch (error) {
